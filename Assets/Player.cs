@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
                 ),
             rb.linearVelocity.y, // y
             Mathf.MoveTowards( // z
-                rb.linearVelocity.z,
+                rb.linearVelocity.z, 
                 topSpeed * move.y,
                 acceleration * Time.fixedDeltaTime
                 ));
