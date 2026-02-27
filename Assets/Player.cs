@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundDistance;
 
+    [Header("Camera")]
+    [SerializeField] private Transform cameraHolder;
+
     private float coyoteTimer;
     private float jumpBufferTimer;
 
@@ -36,6 +39,8 @@ public class Player : MonoBehaviour
 
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
+
+    [SerializeField] Vector2 debug;
 
     // Unity
     private void Awake()
@@ -53,10 +58,14 @@ public class Player : MonoBehaviour
         inputAction.Player.Jump.Enable();
         inputAction.Player.Jump.performed += OnJumpPerformed;
         inputAction.Player.Jump.canceled += OnJumpCanceled;
+
+        inputAction.Player.Look.Enable();
     }
 
     private void OnDisable()
     {
+        inputAction.Player.Look.Disable();
+
         inputAction.Player.Jump.canceled -= OnJumpCanceled;
         inputAction.Player.Jump.performed -= OnJumpPerformed;
         inputAction.Player.Jump.Disable();
@@ -67,6 +76,47 @@ public class Player : MonoBehaviour
     }
 
     void FixedUpdate()
+    {
+        Move();
+        Look();
+    }
+
+    // Events
+    private void OnMovePerformed(InputAction.CallbackContext context)
+    { 
+        isMoving = true;
+    }
+
+    private void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        isMoving = false;
+    }
+
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        { 
+            jumpPressed = true;
+            jumpHeld = true;
+        }
+    }
+
+    private void OnJumpCanceled(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            jumpReleased = true;
+            jumpHeld = false;
+        }
+    }
+
+    // Misc
+    private bool isGrounded()
+    {
+        return Physics.OverlapSphere(groundCheck.position, groundDistance, ground).Length > 0;
+    }
+
+    private void Move()
     {
         // y
         if (jumpPressed)
@@ -129,44 +179,16 @@ public class Player : MonoBehaviour
                 ),
             yVelocity, // y
             Mathf.MoveTowards( // z
-                rb.linearVelocity.z, 
+                rb.linearVelocity.z,
                 topSpeed * move.y,
                 acceleration * Time.fixedDeltaTime
                 ));
     }
 
-    // Events
-    private void OnMovePerformed(InputAction.CallbackContext context)
-    { 
-        isMoving = true;
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
+    private void Look()
     {
-        isMoving = false;
-    }
-
-    private void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        { 
-            jumpPressed = true;
-            jumpHeld = true;
-        }
-    }
-
-    private void OnJumpCanceled(InputAction.CallbackContext context)
-    {
-        if (context.canceled)
-        {
-            jumpReleased = true;
-            jumpHeld = false;
-        }
-    }
-
-    // Misc
-    private bool isGrounded()
-    {
-        return Physics.OverlapSphere(groundCheck.position, groundDistance, ground).Length > 0;
+        Vector2 look = inputAction.Player.Look.ReadValue<Vector2>(); // not getting a value
+        debug = look;
+        cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.y, look.x, 0));
     }
 }

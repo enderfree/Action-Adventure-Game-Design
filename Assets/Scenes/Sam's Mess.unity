@@ -294,7 +294,7 @@ MonoBehaviour:
     Enabled: 1
     CollisionFilter:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     IgnoreTag: 
     CameraRadius: 0.2
     DampingIntoCollision: 0
@@ -540,6 +540,8 @@ MonoBehaviour:
     m_Bits: 64
   groundCheck: {fileID: 1520981305}
   groundDistance: 0.2
+  cameraHolder: {fileID: 1893884240}
+  debug: {x: 0, y: 0}
 --- !u!1 &1520981304
 GameObject:
   m_ObjectHideFlags: 0
