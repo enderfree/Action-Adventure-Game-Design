@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Transform cameraHolder;
 
+    public Transform lastCheckpoint;
+
     private float coyoteTimer;
     private float jumpBufferTimer;
 
@@ -39,8 +41,6 @@ public class Player : MonoBehaviour
 
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
-
-    [SerializeField] Vector2 debug;
 
     // Unity
     private void Awake()
@@ -188,7 +188,12 @@ public class Player : MonoBehaviour
     private void Look()
     {
         Vector2 look = inputAction.Player.Look.ReadValue<Vector2>(); // not getting a value
-        debug = look;
+        
         cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.y, look.x, 0));
+    }
+
+    public void KillPlayer()
+    {
+        transform.position = lastCheckpoint.position;
     }
 }
