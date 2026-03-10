@@ -188,8 +188,15 @@ public class Player : MonoBehaviour
     private void Look()
     {
         Vector2 look = inputAction.Player.Look.ReadValue<Vector2>(); // not getting a value
-        
-        cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.y, look.x, 0));
+
+        if (inputAction.Player.Look.activeControl != null && inputAction.Player.Look.activeControl.device is Gamepad)
+        {
+            cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.y, look.x, 0));
+        }
+        else
+        {
+            cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.x, look.y, 0));
+        }
     }
 
     public void KillPlayer()
