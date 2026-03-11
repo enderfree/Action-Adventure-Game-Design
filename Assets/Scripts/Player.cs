@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
 
     private float xRotation;
 
+    [SerializeField] private Animator anim;
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
 
@@ -82,6 +83,7 @@ public class Player : MonoBehaviour
     {
         Move();
         StepClimb();
+        Animations();
     }
 
     void Update()
@@ -206,5 +208,37 @@ public class Player : MonoBehaviour
     public void KillPlayer()
     {
         transform.position = lastCheckpoint.position;
+    }
+
+    private void Animations()
+    {
+        //Idle and Run
+        if (IsGrounded())
+        {
+            if (anim.GetBool("IsMidAir"))
+            {
+                anim.SetBool("IsMidAir", false);
+            }
+            if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0)
+            {
+                anim.SetBool("IsRunning", true);
+            }
+            else if (rb.linearVelocity.x == 0 || rb.linearVelocity.z == 0)
+            {
+                anim.SetBool("IsRunning", false);
+            }
+            if (jumpPressed)
+            {
+                anim.SetBool("IsJumping", true);
+            }
+        }
+        //Mid Air
+        else if (!IsGrounded()) 
+        {
+            if (!anim.GetBool("IsMidAir"))
+            {
+                anim.SetBool("IsMidAir", true);
+            }
+        }
     }
 }
