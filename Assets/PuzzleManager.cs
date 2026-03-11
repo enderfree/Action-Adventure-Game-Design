@@ -6,6 +6,7 @@ public class PuzzleManager : MonoBehaviour
     private int currentStep = 0;
 
     public GameObject door;
+    public AudioSource openSound;
 
     public void PressButton(int buttonID)
     {
@@ -29,9 +30,14 @@ public class PuzzleManager : MonoBehaviour
     {
         Debug.Log("Puzzle Solved!");
 
+        if (openSound != null)
+        {
+            openSound.Play();
+        }
+
         if (door != null)
         {
-            door.SetActive(false); // opens door
+            door.SetActive(false);
         }
     }
 }
