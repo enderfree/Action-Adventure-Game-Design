@@ -5,120 +5,109 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [Header("Move Speed")]
-    [SerializeField] private float topSpeed;
-    [SerializeField] private float acceleration; // acceleration is very small because it is multiplied by Time.fixedDeltaTime in order to make it frame independent
-    // Time.fixedDeltaTime by default is 0.2
-    // this means acceleration is always divided by 5, making it likely to need to be of an higher value than topSpeed.
+    [SerializeField] private float topSpeed = 6f;
+    [SerializeField] private float acceleration = 25f;
 
     [Header("Jump Parameters")]
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float coyoteTime;
-    [SerializeField] private float jumpBuffer;
-    [SerializeField] private float jumpCutMltp;
-    [SerializeField] private float fallMltp;
-    [SerializeField] private float lowJumpMltp;
-    [SerializeField] private float maxFallSpeed;
+    [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float jumpBuffer = 0.15f;
+    [SerializeField] private float jumpCutMltp = 0.5f;
+    [SerializeField] private float fallMltp = 2.5f;
+    [SerializeField] private float lowJumpMltp = 2f;
+    [SerializeField] private float maxFallSpeed = -20f;
 
     [Header("Ground Info")]
     [SerializeField] private LayerMask ground;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance;
+    [SerializeField] private float groundDistance = 0.3f;
 
     [Header("Camera")]
     [SerializeField] private Transform cameraHolder;
+    [SerializeField] private float mouseSensitivity = 3f;
+
+    [Header("Step Settings")]
+    [SerializeField] private float stepHeight = 0.3f;
+    [SerializeField] private float stepCheckDistance = 0.5f;
 
     public Transform lastCheckpoint;
 
     private float coyoteTimer;
     private float jumpBufferTimer;
 
-    private bool jumpPressed = false;
-    private bool jumpReleased = false;
-    private bool jumpHeld = false;
+    private bool jumpPressed;
+    private bool jumpReleased;
+    private bool jumpHeld;
 
-    private bool isMoving = false; // for animation
-    private bool isJumping = false;
+    private bool isJumping;
+
+    private float xRotation;
 
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
 
-    // Unity
     private void Awake()
     {
         inputAction = new InputSystem_Actions();
-        rb = GetComponent<Rigidbody>(); // yes, I want it to crash if it's not found
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnEnable()
     {
         inputAction.Player.Move.Enable();
-        inputAction.Player.Move.performed += OnMovePerformed;
-        inputAction.Player.Move.canceled += OnMoveCanceled;
-        
         inputAction.Player.Jump.Enable();
+        inputAction.Player.Look.Enable();
+
         inputAction.Player.Jump.performed += OnJumpPerformed;
         inputAction.Player.Jump.canceled += OnJumpCanceled;
-
-        inputAction.Player.Look.Enable();
     }
 
     private void OnDisable()
     {
+        inputAction.Player.Move.Disable();
         inputAction.Player.Look.Disable();
 
-        inputAction.Player.Jump.canceled -= OnJumpCanceled;
         inputAction.Player.Jump.performed -= OnJumpPerformed;
+        inputAction.Player.Jump.canceled -= OnJumpCanceled;
         inputAction.Player.Jump.Disable();
-
-        inputAction.Player.Move.canceled -= OnMoveCanceled;
-        inputAction.Player.Move.performed -= OnMovePerformed;
-        inputAction.Player.Move.Disable();
     }
 
     void FixedUpdate()
     {
         Move();
-        Look();
+        StepClimb();
     }
 
-    // Events
-    private void OnMovePerformed(InputAction.CallbackContext context)
-    { 
-        isMoving = true;
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
+    void Update()
     {
-        isMoving = false;
+        Look();
     }
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        { 
-            jumpPressed = true;
-            jumpHeld = true;
-        }
+        jumpPressed = true;
+        jumpHeld = true;
     }
 
     private void OnJumpCanceled(InputAction.CallbackContext context)
     {
-        if (context.canceled)
-        {
-            jumpReleased = true;
-            jumpHeld = false;
-        }
+        jumpReleased = true;
+        jumpHeld = false;
     }
 
-    // Misc
-    private bool isGrounded()
+    private bool IsGrounded()
     {
-        return Physics.OverlapSphere(groundCheck.position, groundDistance, ground).Length > 0;
+        return Physics.CheckSphere(groundCheck.position, groundDistance, ground);
     }
 
     private void Move()
     {
-        // y
         if (jumpPressed)
         {
             jumpBufferTimer = jumpBuffer;
@@ -129,7 +118,7 @@ public class Player : MonoBehaviour
             jumpBufferTimer -= Time.deltaTime;
         }
 
-        if (isGrounded())
+        if (IsGrounded())
         {
             coyoteTimer = coyoteTime;
             isJumping = false;
@@ -140,12 +129,13 @@ public class Player : MonoBehaviour
         }
 
         float yVelocity = rb.linearVelocity.y;
+
         if (jumpBufferTimer > 0f && coyoteTimer > 0f && !isJumping)
         {
             yVelocity = jumpForce;
             isJumping = true;
-            coyoteTimer = 0f;
             jumpBufferTimer = 0f;
+            coyoteTimer = 0f;
         }
 
         if (jumpReleased && yVelocity > 0f)
@@ -156,11 +146,11 @@ public class Player : MonoBehaviour
 
         if (yVelocity < 0f)
         {
-            yVelocity += Vector2.up.y * Physics.gravity.y * (fallMltp - 1) * Time.fixedDeltaTime;
+            yVelocity += Physics.gravity.y * (fallMltp - 1) * Time.fixedDeltaTime;
         }
-        else if (yVelocity > 0f && jumpHeld)
+        else if (yVelocity > 0f && !jumpHeld)
         {
-            yVelocity += Vector2.up.y * Physics.gravity.y * (lowJumpMltp - 1) * Time.fixedDeltaTime;
+            yVelocity += Physics.gravity.y * (lowJumpMltp - 1) * Time.fixedDeltaTime;
         }
 
         if (yVelocity < maxFallSpeed)
@@ -168,34 +158,48 @@ public class Player : MonoBehaviour
             yVelocity = maxFallSpeed;
         }
 
-        // x, z
         Vector2 move = inputAction.Player.Move.ReadValue<Vector2>();
 
+        Vector3 moveDirection = transform.right * move.x + transform.forward * move.y;
+        moveDirection.Normalize();
+
+        Vector3 targetVelocity = moveDirection * topSpeed;
+
         rb.linearVelocity = new Vector3(
-            Mathf.MoveTowards( // x
-                rb.linearVelocity.x,
-                topSpeed * move.x,
-                acceleration * Time.fixedDeltaTime
-                ),
-            yVelocity, // y
-            Mathf.MoveTowards( // z
-                rb.linearVelocity.z,
-                topSpeed * move.y,
-                acceleration * Time.fixedDeltaTime
-                ));
+            Mathf.MoveTowards(rb.linearVelocity.x, targetVelocity.x, acceleration * Time.fixedDeltaTime),
+            yVelocity,
+            Mathf.MoveTowards(rb.linearVelocity.z, targetVelocity.z, acceleration * Time.fixedDeltaTime)
+        );
     }
 
     private void Look()
     {
-        Vector2 look = inputAction.Player.Look.ReadValue<Vector2>(); // not getting a value
+        Vector2 look = inputAction.Player.Look.ReadValue<Vector2>();
 
-        if (inputAction.Player.Look.activeControl != null && inputAction.Player.Look.activeControl.device is Gamepad)
+        float mouseX = look.x * mouseSensitivity;
+        float mouseY = look.y * mouseSensitivity;
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -40f, 10f);
+
+        cameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        transform.Rotate(Vector3.up * mouseX);
+    }
+
+    // Step climbing so small rocks don't block player
+    private void StepClimb()
+    {
+        RaycastHit lowerHit;
+
+        if (Physics.Raycast(transform.position + Vector3.up * 0.05f, transform.forward, out lowerHit, stepCheckDistance))
         {
-            cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.y, look.x, 0));
-        }
-        else
-        {
-            cameraHolder.rotation = Quaternion.Euler(cameraHolder.rotation.eulerAngles + new Vector3(look.x, look.y, 0));
+            RaycastHit upperHit;
+
+            if (!Physics.Raycast(transform.position + Vector3.up * stepHeight, transform.forward, out upperHit, stepCheckDistance))
+            {
+                rb.position += Vector3.up * stepHeight;
+            }
         }
     }
 
