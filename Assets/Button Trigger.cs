@@ -1,19 +1,30 @@
 using UnityEngine;
 
-public class PuzzleButton : MonoBehaviour
+public class ButtonTrigger : MonoBehaviour
 {
-    public int buttonID;                // number of this button
-    public PuzzleManager puzzleManager; // reference to the puzzle manager
-
+    public GameObject wall; // the wall that will disappear
     private bool playerNear = false;
+    public AudioSource buttonSound;
 
     void Update()
     {
         if (playerNear && Input.GetKeyDown(KeyCode.E))
         {
-            puzzleManager.PressButton(buttonID);
+            PressButton();
+            wall.SetActive(false);
         }
     }
+    void PressButton()
+    {
+        if (buttonSound != null)
+
+
+        {
+            buttonSound.Play();
+        }
+    }
+        
+
 
     private void OnTriggerEnter(Collider other)
     {
