@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hammer Swing
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Girl
+    m_Weight: 0
+  - m_Path: Hammer Girl
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.L
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.L/Thigh.L
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.L/Thigh.L/Shin.L
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.L/Thigh.L/Shin.L/Foot.L
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.R
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.R/Thigh.R
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.R/Thigh.R/Shin.R
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Hip.R/Thigh.R/Shin.R/Hip.R.003
+    m_Weight: 0
+  - m_Path: Hammer Girl/Lower_Back/Torso
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Neck
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Neck/Head
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.L
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.L/Upper_Arm.L
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.L/Upper_Arm.L/Forearm.L
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.L/Upper_Arm.L/Forearm.L/Hand.L
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R/Upper_Arm.R
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R/Upper_Arm.R/Forearm.R
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R/Upper_Arm.R/Forearm.R/Hand.R
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R/Upper_Arm.R/Forearm.R/Hand.R/Hammer
+    m_Weight: 1
+  - m_Path: Hammer Girl/Lower_Back/Torso/Shoulder.R/Upper_Arm.R/Forearm.R/Hand.R/Hammer/Hitbox
+    m_Weight: 1
