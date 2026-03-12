@@ -67,6 +67,9 @@ public class Player : MonoBehaviour
 
         inputAction.Player.Jump.performed += OnJumpPerformed;
         inputAction.Player.Jump.canceled += OnJumpCanceled;
+
+        inputAction.Player.Attack.Enable();
+        inputAction.Player.Attack.performed += OnAttackPerformed;
     }
 
     private void OnDisable()
@@ -77,6 +80,9 @@ public class Player : MonoBehaviour
         inputAction.Player.Jump.performed -= OnJumpPerformed;
         inputAction.Player.Jump.canceled -= OnJumpCanceled;
         inputAction.Player.Jump.Disable();
+
+        inputAction.Player.Attack.Disable();
+        inputAction.Player.Attack.performed -= OnAttackPerformed;
     }
 
     void FixedUpdate()
@@ -172,6 +178,11 @@ public class Player : MonoBehaviour
             yVelocity,
             Mathf.MoveTowards(rb.linearVelocity.z, targetVelocity.z, acceleration * Time.fixedDeltaTime)
         );
+    }
+
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        anim.SetTrigger("IsSwinging");
     }
 
     private void Look()
