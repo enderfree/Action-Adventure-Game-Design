@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/End Card.unity.meta
 guid: 6232d3f2d54e53347a7cde6416645cd1
 DefaultImporter:
+========
+guid: 04f97bf33779131418a43277977f2b14
+PrefabImporter:
+>>>>>>>> 29fde6848bda3f79898a574a51b40be75daf46d9:Assets/Prefabs/Hammer Girl Player.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
 
     private float xRotation;
 
+    [SerializeField] private Animator anim;
+    [SerializeField] private HammerHitHitbox hammerHitHitbox;
+
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
 
@@ -66,6 +69,9 @@ public class Player : MonoBehaviour
 
         inputAction.Player.Jump.performed += OnJumpPerformed;
         inputAction.Player.Jump.canceled += OnJumpCanceled;
+
+        inputAction.Player.Attack.Enable();
+        inputAction.Player.Attack.performed += OnAttackPerformed;
     }
 
     private void OnDisable()
@@ -76,12 +82,16 @@ public class Player : MonoBehaviour
         inputAction.Player.Jump.performed -= OnJumpPerformed;
         inputAction.Player.Jump.canceled -= OnJumpCanceled;
         inputAction.Player.Jump.Disable();
+
+        inputAction.Player.Attack.Disable();
+        inputAction.Player.Attack.performed -= OnAttackPerformed;
     }
 
     void FixedUpdate()
     {
         Move();
         StepClimb();
+        Animations();
     }
 
     void Update()
@@ -172,6 +182,11 @@ public class Player : MonoBehaviour
         );
     }
 
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        anim.SetTrigger("IsSwinging");
+    }
+
     private void Look()
     {
         Vector2 look = inputAction.Player.Look.ReadValue<Vector2>();
@@ -185,6 +200,16 @@ public class Player : MonoBehaviour
         cameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+    public void EnableHammerHitBox()
+    { 
+        hammerHitHitbox.hitting = true;
+    }
+
+    public void DisableHammerHitBox()
+    {
+        hammerHitHitbox.hitting = false;
     }
 
     // Step climbing so small rocks don't block player
@@ -206,5 +231,37 @@ public class Player : MonoBehaviour
     public void KillPlayer()
     {
         transform.position = lastCheckpoint.position;
+    }
+
+    private void Animations()
+    {
+        //Idle and Run
+        if (IsGrounded())
+        {
+            if (anim.GetBool("IsMidAir"))
+            {
+                anim.SetBool("IsMidAir", false);
+            }
+            if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0)
+            {
+                anim.SetBool("IsRunning", true);
+            }
+            else if (rb.linearVelocity.x == 0 || rb.linearVelocity.z == 0)
+            {
+                anim.SetBool("IsRunning", false);
+            }
+            if (jumpPressed)
+            {
+                anim.SetBool("IsJumping", true);
+            }
+        }
+        //Mid Air
+        else if (!IsGrounded()) 
+        {
+            if (!anim.GetBool("IsMidAir"))
+            {
+                anim.SetBool("IsMidAir", true);
+            }
+        }
     }
 }
