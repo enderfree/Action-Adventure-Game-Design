@@ -5205,7 +5205,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.010000001, y: 1.2067943, z: 0.01}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: -0.5131789, z: 0}
 --- !u!1001 &736231103
 PrefabInstance:
@@ -9602,6 +9602,14 @@ PrefabInstance:
       propertyPath: roomCombatManager
       value: 
       objectReference: {fileID: 924533521}
+    - target: {fileID: 9099331540041704184, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099331540041704184, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -11319,7 +11327,7 @@ PrefabInstance:
     - target: {fileID: 8747637851698642899, guid: 59d1fd1ff6317fa4bb5bb5cc5a30e3c1, type: 3}
       propertyPath: iActivatable
       value: 
-      objectReference: {fileID: 1302443553}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
