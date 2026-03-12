@@ -11,12 +11,11 @@ public class SimonPuzzleManager : MonoBehaviour
 
     public SimonButton[] buttons;
 
-    [Header("Door")]
     public GameObject wall;
     public AudioSource openSound;
-
-    [Header("Fail Sound")]
     public AudioSource failSound;
+
+    private bool isShowingSequence = false;
 
     void Start()
     {
@@ -36,19 +35,24 @@ public class SimonPuzzleManager : MonoBehaviour
 
     IEnumerator ShowSequence()
     {
+        isShowingSequence = true;
+
         yield return new WaitForSeconds(1f);
 
         for (int i = 0; i < sequence.Count; i++)
         {
             yield return StartCoroutine(buttons[sequence[i]].Flash());
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         playerStep = 0;
+        isShowingSequence = false;
     }
 
     public void PlayerPress(int buttonID)
     {
+        if (isShowingSequence) return;
+
         if (buttonID == sequence[playerStep])
         {
             playerStep++;
@@ -66,8 +70,6 @@ public class SimonPuzzleManager : MonoBehaviour
 
     IEnumerator FailSequence()
     {
-        Debug.Log("Wrong sequence!");
-
         if (failSound != null)
         {
             failSound.Play();
@@ -82,7 +84,7 @@ public class SimonPuzzleManager : MonoBehaviour
 
     void PuzzleSolved()
     {
-        Debug.Log("Simon Puzzle Solved!");
+        Debug.Log("Puzzle Solved!");
 
         if (openSound != null)
         {
