@@ -272,7 +272,7 @@ Transform:
   m_GameObject: {fileID: 370357383}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.342964, y: 2.98, z: -6.87}
+  m_LocalPosition: {x: 0.5, y: 2.98, z: -4.029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -543,7 +543,7 @@ Transform:
   m_GameObject: {fileID: 2076827214}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.342964, y: 2.98, z: -6.87}
+  m_LocalPosition: {x: 0.5, y: 2.98, z: -4.029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -676,6 +676,14 @@ PrefabInstance:
     - target: {fileID: 5680487722467229461, guid: 04f97bf33779131418a43277977f2b14, type: 3}
       propertyPath: m_Name
       value: Hammer Girl Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139324100761865694, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139324100761865694, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.029
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
