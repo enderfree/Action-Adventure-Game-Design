@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float stepCheckDistance = 0.5f;
 
     public Transform lastCheckpoint;
-
+    public RoomCombatManager roomCombatManager;
     private float coyoteTimer;
     private float jumpBufferTimer;
 
@@ -231,6 +231,11 @@ public class Player : MonoBehaviour
     public void KillPlayer()
     {
         transform.position = lastCheckpoint.position;
+        if(roomCombatManager != null)
+        {
+            roomCombatManager.ResetRoom();
+        }
+
     }
 
     private void Animations()

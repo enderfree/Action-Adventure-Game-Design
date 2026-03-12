@@ -19,10 +19,7 @@ public class PlayAnimationOnPress : MonoBehaviour
                 buttonSound.Play();
             }
 
-            if (animator != null)
-            {
-                animator.SetTrigger("Play");
-            }
+          
         }
     }
 
