@@ -8,6 +8,7 @@ public class HammerHitHitbox : MonoBehaviour
     {
         if (hitting && other.TryGetComponent<IHittable>(out IHittable iHittable))
         {
+            Debug.Log(other.gameObject.name);
             iHittable.OnHit();
         }
     }

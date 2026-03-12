@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private float xRotation;
 
     [SerializeField] private Animator anim;
+    [SerializeField] private HammerHitHitbox hammerHitHitbox;
+
     private InputSystem_Actions inputAction;
     private Rigidbody rb;
 
@@ -198,6 +200,16 @@ public class Player : MonoBehaviour
         cameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+    public void EnableHammerHitBox()
+    { 
+        hammerHitHitbox.hitting = true;
+    }
+
+    public void DisableHammerHitBox()
+    {
+        hammerHitHitbox.hitting = false;
     }
 
     // Step climbing so small rocks don't block player
