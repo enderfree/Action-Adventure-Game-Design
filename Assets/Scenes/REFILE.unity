@@ -9595,6 +9595,10 @@ PrefabInstance:
       value: -31.9
       objectReference: {fileID: 0}
     - target: {fileID: 6183355108830059451, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+      propertyPath: groundDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183355108830059451, guid: 04f97bf33779131418a43277977f2b14, type: 3}
       propertyPath: mouseSensitivity
       value: 0.15
       objectReference: {fileID: 0}
@@ -9604,7 +9608,7 @@ PrefabInstance:
       objectReference: {fileID: 924533521}
     - target: {fileID: 9099331540041704184, guid: 04f97bf33779131418a43277977f2b14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.21
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 9099331540041704184, guid: 04f97bf33779131418a43277977f2b14, type: 3}
       propertyPath: m_LocalPosition.z

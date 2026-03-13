@@ -97,6 +97,19 @@ public class Player : MonoBehaviour
     void Update()
     {
         Look();
+        Debug.Log($"IsGrounded() { IsGrounded() }|checkSphere {groundCheck.position}|radius {groundDistance}");
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        if (IsGrounded())
+        {
+            Gizmos.color = Color.green;
+        }
+
+        Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
     }
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
@@ -113,6 +126,8 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
+        
+
         return Physics.CheckSphere(groundCheck.position, groundDistance, ground);
     }
 
@@ -127,6 +142,7 @@ public class Player : MonoBehaviour
         {
             jumpBufferTimer -= Time.deltaTime;
         }
+        
 
         if (IsGrounded())
         {
@@ -137,7 +153,7 @@ public class Player : MonoBehaviour
         {
             coyoteTimer -= Time.deltaTime;
         }
-
+        
         float yVelocity = rb.linearVelocity.y;
 
         if (jumpBufferTimer > 0f && coyoteTimer > 0f && !isJumping)
@@ -243,25 +259,30 @@ public class Player : MonoBehaviour
         //Idle and Run
         if (IsGrounded())
         {
-            if (anim.GetBool("IsMidAir"))
-            {
-                anim.SetBool("IsMidAir", false);
-            }
-            if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0)
-            {
-                anim.SetBool("IsRunning", true);
-            }
-            else if (rb.linearVelocity.x == 0 || rb.linearVelocity.z == 0)
-            {
-                anim.SetBool("IsRunning", false);
-            }
+            anim.SetBool("IsJumping", false);
+            anim.SetBool("IsMidAir", false);
+            bool isMoving = rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0;
+            anim.SetBool("IsRunning", isMoving);
+
+            //if (anim.GetBool("IsMidAir"))
+            //{
+            //    anim.SetBool("IsMidAir", false);
+            //}
+            //if (rb.linearVelocity.x != 0 || rb.linearVelocity.z != 0)
+            //{
+            //    anim.SetBool("IsRunning", true);
+            //}
+            //else if (rb.linearVelocity.x == 0 || rb.linearVelocity.z == 0)
+            //{
+            //    anim.SetBool("IsRunning", false);
+            //}
             if (jumpPressed)
             {
                 anim.SetBool("IsJumping", true);
             }
         }
         //Mid Air
-        else if (!IsGrounded()) 
+        else  
         {
             if (!anim.GetBool("IsMidAir"))
             {
