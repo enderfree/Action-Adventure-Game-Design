@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Look();
-        Debug.Log($"IsGrounded() { IsGrounded() }|checkSphere {groundCheck.position}|radius {groundDistance}");
+        // Debug.Log($"IsGrounded() { IsGrounded() }|checkSphere {groundCheck.position}|radius {groundDistance}");
     }
 
     private void OnDrawGizmos()

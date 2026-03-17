@@ -1,18 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class SimonButton : MonoBehaviour
+public class SimonButton : MonoBehaviour, IHittable
 {
     public int buttonID;
     public SimonPuzzleManager puzzleManager;
-
+    [SerializeField] Animator button;
     public Renderer buttonRenderer;
     public AudioSource buttonSound;
 
     public Color glowColor = Color.yellow;
     private Color originalColor;
 
-    private bool playerNear = false;
+    private bool isPressed = false;
 
     void Start()
     {
@@ -21,10 +21,7 @@ public class SimonButton : MonoBehaviour
 
     void Update()
     {
-        if (playerNear && Input.GetKeyDown(KeyCode.E))
-        {
-            PressButton();
-        }
+        
     }
 
     void PressButton()
@@ -51,19 +48,26 @@ public class SimonButton : MonoBehaviour
         buttonRenderer.material.color = originalColor;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnHit()
     {
-        if (other.CompareTag("Player"))
+        if (!isPressed)
         {
-            playerNear = true;
+            buttonSound.Play();
+            button.Play("Press Button");
+            isPressed = true;
+
+            PressButton();
+            Unpress();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void Unpress()
     {
-        if (other.CompareTag("Player"))
+        if (isPressed)
         {
-            playerNear = false;
+            buttonSound.Play();
+            button.Play("Unpress Button");
+            isPressed = false;
         }
     }
 }

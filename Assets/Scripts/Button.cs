@@ -4,6 +4,9 @@ public class Button : MonoBehaviour, IHittable
 {
     [SerializeField] Animator button;
     [SerializeField] GameObject iActivatable;
+    [SerializeField] AudioSource buttonSound;
+
+    bool isPressed = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,16 +22,26 @@ public class Button : MonoBehaviour, IHittable
 
     public void OnHit()
     {
-        button.Play("Press Button");
-
-        if (iActivatable != null) 
+        if (!isPressed) 
         {
-            iActivatable.GetComponent<IActivatable>().Activate();
+            buttonSound.Play();
+            button.Play("Press Button");
+            isPressed = true;
+
+            if (iActivatable != null)
+            {
+                iActivatable.GetComponent<IActivatable>().Activate();
+            }
         }
     }
 
     public void Unpress()
     {
-        button.Play("Unpress Button");
+        if (isPressed) 
+        {
+            buttonSound.Play();
+            button.Play("Unpress Button");
+            isPressed = false;
+        }
     }
 }
