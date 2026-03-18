@@ -3936,7 +3936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90b9d0aac2fc144dbf08f0801e72a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonID: 2
+  buttonID: 1
   puzzleManager: {fileID: 2107329450}
   button: {fileID: 630338948}
   buttonRenderer: {fileID: 630338950}
@@ -9067,7 +9067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90b9d0aac2fc144dbf08f0801e72a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonID: 1
+  buttonID: 0
   puzzleManager: {fileID: 2107329450}
   button: {fileID: 1215322885}
   buttonRenderer: {fileID: 1215322882}
@@ -9308,7 +9308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90b9d0aac2fc144dbf08f0801e72a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonID: 3
+  buttonID: 2
   puzzleManager: {fileID: 2107329450}
   button: {fileID: 1254151045}
   buttonRenderer: {fileID: 1254151042}
@@ -10880,7 +10880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90b9d0aac2fc144dbf08f0801e72a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonID: 4
+  buttonID: 3
   puzzleManager: {fileID: 2107329450}
   button: {fileID: 1516238191}
   buttonRenderer: {fileID: 1516238188}
@@ -15566,7 +15566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa92944847db971408711ba381351482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequence: 000000000000000000000000
+  sequence: 00000000010000000200000003000000
   sequenceLength: 4
   buttons:
   - {fileID: 1215322881}

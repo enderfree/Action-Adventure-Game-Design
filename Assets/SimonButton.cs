@@ -5,7 +5,8 @@ public class SimonButton : MonoBehaviour, IHittable
 {
     public int buttonID;
     public SimonPuzzleManager puzzleManager;
-    [SerializeField] Animator button;
+
+    [SerializeField] private Animator button;
     public Renderer buttonRenderer;
     public AudioSource buttonSound;
 
@@ -19,28 +20,36 @@ public class SimonButton : MonoBehaviour, IHittable
         originalColor = buttonRenderer.material.color;
     }
 
-    void Update()
+    // Called when player hits the button
+    public void OnHit()
     {
-        
-    }
-
-    void PressButton()
-    {
-        StartCoroutine(Flash());
-
-        if (puzzleManager != null)
+        if (!isPressed)
         {
-            puzzleManager.PlayerPress(buttonID);
+            isPressed = true;
+
+            // Play sound once
+            if (buttonSound != null)
+                buttonSound.Play();
+
+            // Play press animation
+            if (button != null)
+                button.Play("Press Button");
+
+            // Send input to puzzle manager
+            if (puzzleManager != null)
+                puzzleManager.PlayerPress(buttonID);
+
+            // Visual feedback
+            StartCoroutine(Flash());
+
+            // Delay unpress
+            StartCoroutine(UnpressDelay());
         }
     }
 
+    // Flash effect (NO SOUND here anymore)
     public IEnumerator Flash()
     {
-        if (buttonSound != null)
-        {
-            buttonSound.Play();
-        }
-
         buttonRenderer.material.color = glowColor;
 
         yield return new WaitForSeconds(0.5f);
@@ -48,26 +57,14 @@ public class SimonButton : MonoBehaviour, IHittable
         buttonRenderer.material.color = originalColor;
     }
 
-    public void OnHit()
+    // Delayed unpress (fixes instant reset bug)
+    private IEnumerator UnpressDelay()
     {
-        if (!isPressed)
-        {
-            buttonSound.Play();
-            button.Play("Press Button");
-            isPressed = true;
+        yield return new WaitForSeconds(0.5f);
 
-            PressButton();
-            Unpress();
-        }
-    }
-
-    public void Unpress()
-    {
-        if (isPressed)
-        {
-            buttonSound.Play();
+        if (button != null)
             button.Play("Unpress Button");
-            isPressed = false;
-        }
+
+        isPressed = false;
     }
 }
