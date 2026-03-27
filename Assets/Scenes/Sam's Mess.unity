@@ -347,6 +347,11 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!4 &1267653282 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5016717309345015215, guid: 04f97bf33779131418a43277977f2b14, type: 3}
+  m_PrefabInstance: {fileID: 865888564144797160}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1863117367
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +858,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1135283353955784347, guid: 9bbe454f4e64b7849b4ac6c080f94063, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1267653282}
     - target: {fileID: 8522675692974120315, guid: 9bbe454f4e64b7849b4ac6c080f94063, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.4128532

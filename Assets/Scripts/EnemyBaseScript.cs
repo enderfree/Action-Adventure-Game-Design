@@ -6,7 +6,7 @@ public class EnemyBaseScript : MonoBehaviour
     private int currentHealth;
 
     public float speed = 5f;
-    private Transform player;
+    public Transform player;
 
     private Vector3 startPosition;
     private bool activeEnemy = false;
@@ -17,7 +17,7 @@ public class EnemyBaseScript : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (activeEnemy && player != null)
         {
